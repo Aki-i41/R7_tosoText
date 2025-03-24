@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>令和7年度教科書購入計算サイト</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>令和7年度教科書購入計算サイト</h1>
+
+        <div class="total-book-list">
+            <h2>全員が購入する教科書</h2>
+            <ul>
+                <li>地理総合: 766円</li>
+                <li>数学A: 670円</li>
+                <li>パラレルノート: 517円</li>
+            </ul>
+            <div class="result" id="totalResult"></div>
+        </div>
+
+        <div class="art-selection">
+            <h2>芸術選択</h2>
+            <select id="artOption">
+                <option value="0">選択してください</option>
+                <option value="1302">美術: 1302円</option>
+                <option value="568">書道: 568円</option>
+            </select>
+            <div class="result" id="artResult"></div>
+        </div>
+
+        <div class="course-selection">
+            <h2>コース選択</h2>
+            <select id="courseOption">
+                <option value="0">選択してください</option>
+                <option value="3198+1161">土木コース: 土木基礎力学 3198円, 社会基盤工学 1161円</option>
+                <option value="1089">建築コース: 建築法規 1089円</option>
+            </select>
+            <div class="result" id="courseResult"></div>
+        </div>
+
+        <button onclick="calculateTotalCost()">全ての合計金額を計算する</button>
+        <div class="result" id="finalResult"></div>
+    </div>
+
+    <script>
+        function calculateTotalBooks() {
+            const totalBooks = 766 + 670 + 517;
+            document.getElementById('totalResult').textContent = `全員が購入する教科書の合計金額: ${totalBooks.toLocaleString()} 円`;
+            return totalBooks;
+        }
+
+        function calculateArtTotal() {
+            const artOption = parseFloat(document.getElementById('artOption').value);
+            if (!isNaN(artOption) && artOption > 0) {
+                document.getElementById('artResult').textContent = `芸術選択の合計金額: ${artOption.toLocaleString()} 円`;
+                return artOption;
+            } else {
+                document.getElementById('artResult').textContent = '有効な選択肢を選んでください';
+                return 0;
+            }
+        }
+
+        function calculateCourseTotal() {
+            const courseOption = document.getElementById('courseOption').value;
+            const courseTotal = courseOption.split('+').reduce((sum, price) => sum + parseFloat(price), 0);
+            if (courseTotal > 0) {
+                document.getElementById('courseResult').textContent = `コース選択の合計金額: ${courseTotal.toLocaleString()} 円`;
+                return courseTotal;
+            } else {
+                document.getElementById('courseResult').textContent = '有効な選択肢を選んでください';
+                return 0;
+            }
+        }
+
+        function calculateTotalCost() {
+            const totalBooks = calculateTotalBooks();
+            const artTotal = calculateArtTotal();
+            const courseTotal = calculateCourseTotal();
+            const finalTotal = totalBooks + artTotal + courseTotal;
+            document.getElementById('finalResult').textContent = `全ての合計金額: ${finalTotal.toLocaleString()} 円`;
+        }
+    </script>
+</body>
+</html>
